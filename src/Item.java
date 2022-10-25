@@ -1,4 +1,6 @@
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 public class Item {
     //Vars
@@ -16,12 +18,13 @@ public class Item {
         remove = false;
     }
 
-    public Item(String name, String id, Double price, Date expirationDate)
+    //Creates an item with all vars. ExpirationDateString needs to be in "dd-mm-yyyy" format
+    public Item(String name, String id, Double price, String expirationDateString) throws ParseException
     {
         this.name = name;
         this.id = id;
         this.price = price;
-        this.expirationDate = expirationDate;
+        expirationDate = setExpirationDate(expirationDateString);
         remove = false;
     }
 
@@ -65,6 +68,7 @@ public class Item {
     {
         return name;
     }
+   
 
     //Setters
     public void setID(String id)
@@ -79,12 +83,27 @@ public class Item {
     {
         this.expirationDate = expirationDate;
     }
-    public void setRemove(Boolean remove)
+    //Converts the expirationDateString to a date
+    public Date setExpirationDate(String expirationDateString) throws ParseException
     {
-        this.remove = remove;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
+        Date tempDate = sdf.parse(expirationDateString);
+        return tempDate;
+    }
+    public void setRemove(Boolean expired)
+    {
+        this.remove = expired;
     }
     public void setName(String name)
     {
         this.name = name;
+    }
+ 
+    public boolean isExpired()
+    {
+        Date tempDate = new Date();
+        if(expirationDate.getTime() - tempDate.getTime() <= 0)
+            return true;
+        return false;
     }
 }

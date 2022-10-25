@@ -1,6 +1,8 @@
+import java.text.ParseException;
+
 //Main Class that will run everything
 public class Main {
-    public static void main(String [] args)
+    public static void main(String [] args) throws ParseException
     {
         //System.out.println("Welcome to xyz Vending Machine Software Product! Are you a customer, restocker, or management?");
             //Take input
@@ -15,28 +17,18 @@ public class Main {
         VendingMachine a = new VendingMachine(5,4,5);
         Item b = new Item("100", 1.99);
         Item d = new Item("40A", 2.99);
+        Item f = new Item("Chips", "AB100", 4.99,"03-15-2023");
+        Item g = new Item("Cookies", "AB412", 1.99,"03-15-1990");
 
-        /* 
-        Slot c = new Slot();
-        c.addItem(b, 3);
-        c.addItem(d,3,7); 
-        a.inventory[1][1] = c;
-        System.out.println(a.inventory[1][1].items[2].id);
-        c.moveItemsForward(1);
-        System.out.println(a.inventory[1][1].items[2].id);
-        */
 
-        Slot e = new Slot();
-        e.addItemAList(b);
-        e.addItemAList(d, 3);
-        a.inventory[1][2] = e;
-        System.out.println("Item in second slot:" + " " + a.inventory[1][2].itemsAList.get(1).id);
-        System.out.println("Item in first Slot:" + " " + a.inventory[1][2].itemsAList.get(0).id);
+        f.setRemove(true);
 
-        e.removeItemAList(0);
-        System.out.println("Item in first slot after change:" + " " + a.inventory[1][2].itemsAList.get(0).id);
-
+        Slot q = new Slot(f);
+        Slot h = new Slot(g);
+    
+        a.inventory[1][2] = q;
+        a.inventory[0][0] = h;
         
-
+        
     }
 }
