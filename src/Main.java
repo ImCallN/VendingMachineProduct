@@ -20,14 +20,19 @@ public class Main {
         Item f = new Item("Chips", "AB100", 4.99,"03-15-2023");
         Item g = new Item("Cookies", "AB412", 1.99,"03-15-1990");
 
-
-        f.setRemove(true);
-
         Slot q = new Slot(f);
         Slot h = new Slot(g);
-    
+        Slot j = new Slot(g);
+
+
+        a.inventory[0][1] = j;
         a.inventory[1][2] = q;
         a.inventory[0][0] = h;
+
+        a.populateRemoveList();
+        a.printRemoveSlots();
+
+        
         
         
     }
