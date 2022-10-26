@@ -26,6 +26,7 @@ The point of this project is to create a working product for the customer, an ow
                         -Inventory.
                         -Transactions.
                         -List of items to remove.
+                        -List of items to add to vending machine.
                         -Locations of items in a vending machine.
                     - Heartbeat of vending machine.
 
@@ -52,7 +53,7 @@ The way this will break down is:
                             -A price.
                             -A flag to remove an item.
                             -TBD but it could also contain a location in the slot object.
-For example, a vending machine with row = 4 and column = 4 should look like:
+For example, a vending machine with row = 4 and column = 4, should look like:
     [A1][A2][A3][A4]
     [B1][B2][B3][B4]
     [C1][C2][C3][C4]

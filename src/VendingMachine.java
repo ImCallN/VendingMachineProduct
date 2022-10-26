@@ -189,4 +189,5 @@ public class VendingMachine
             System.out.println("Expired Slots: " + s);
         }
     }
+
 }
