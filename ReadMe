@@ -1,0 +1,173 @@
+This is a readme of the Vending Machine project being pursued in Class CSC 131.
+Author: Collin Dunkle
+Date: 10/23/2022
+
+The point of this project is to create a working product for the customer, an owner of a vending machine company.
+    The customer requested 3 main things:
+            -An interface for customers to purchase items from his vending machines.
+            -A tool for restockers to quickly and accurately add/remove items.
+            -A tool for management to view analytics and adjust changes when needed.
+    Within each of these things, certain features were asked for:
+            -Customer Asks:
+                    - Ability to purchase multiple items.
+                    - UI with large buttons from Java Swing.
+                    - Ability to purchase items.
+                    - Modular enough to add other types of payment methods in at a later date.
+                    - Ability to cancel a transaction.
+            -Restocker Asks:
+                    - Recieve a list of remove items.
+                    - Revieve a list of add items.
+                    - Scans items and marks off quantity input into the machine to update system.
+                    - Mobile app.
+            -Management Asks:
+                    - Recieve analytics of a machine including:
+                        -Location.
+                        -Inventory.
+                        -Transactions.
+                        -List of items to remove.
+                        -List of items to add to vending machine.
+                        -Locations of items in a vending machine.
+                    - Heartbeat of vending machine.
+
+This system is going to be centered around Java objects, as Java is easily portable between multiple platforms.
+The way this will break down is:
+    A vending machine object:
+            -Contains a 2D array of slot objects based on a column length and row length.
+            -Keeps track of a location, inventory size, other info as needed.
+            -Keeps track of a list of items that need to be removed.
+            -Methods to calculate space available, heartbeat, current status.
+
+            As mentioned above, the 2D array inside of a vending machine will represent the items that are contained in
+            each "slot". In a 3D terms, this would represent the Z axis.
+                A slot will contain:
+                    -A depth of how many items deep a slot goes.
+                    -An arraylist of items on the slot.
+                    -A location of the slot in the vending machine.
+                    -Methods to calculate items in slot, to change the amount of items in a slot, tbd.
+
+                    In each slot, there are multiple item objects.
+                        An item object will contain:
+                            -An ID.
+                            -An expiration date.
+                            -A price.
+                            -A flag to remove an item.
+                            -TBD but it could also contain a location in the slot object.
+For example, a vending machine with row = 4 and column = 4, should look like:
+    [A1][A2][A3][A4]
+    [B1][B2][B3][B4]
+    [C1][C2][C3][C4]
+    [D1][D2][D3][D4]
+Each cell here represents a slot. Upon selecting slot B3 that has a depth of 5, we should see:
+    [Item_1][Item_2][Item_3][Item_4][Item_5]
+Each cell there represents an Item. Upon opening an item object, we should see:
+    ID,Price,ExpirationDate,RemoveBoolean
+
+
+Upon creating this system, we should then be able to start creating individual lists for separate interfaces.
+        -The customer interface should not be accessing anything other than what it needs to. That means that they
+        won't have the ability to modify prices or increase the count of an item. They should only be able to add
+        a cash amount, take items out of the count, and cancel a transaction.
+        -The restocker will be able to remove items and add items, but not modify prices or other information pertaining
+        specific items
+        -The management interface can change information about items and create lists from the information, but cannot add
+        or remove items. They can create a new vending machine item though, and provide a list with what to populate or remove,
+        but the restocker will be the one that confirms the operation and information of items that were removed or added.
+
+CSV FILES:
+    --------------------------------------------------------------------------------------------------------------------
+    Position csv files should be in the format of "int id,int xPos,int yPos,int amount"
+        All fields are integers, and go item id, row position, column position, amount of item, respectively
+
+    --------------------------------------------------------------------------------------------------------------------
+
+UPDATE 11/29/2022
+    CHANGES
+    --------------------------------------------------------------------------------------------------------------------
+    Slot Class
+        -Changed the class structure to instead contain an itemID integer instead of an array of item objects. Also
+        changed it so that there is not an array anymore, but an integer count of the items in that slot. This means that
+        multiple different items cannot be stored in the same slot.
+    CSVs
+        -Added CSV files to the project as our databases. Currently have a csv for the Item Database and a csv for the
+        positions of the items in the vending machine.
+    VendingMachine Class
+        -Added importCSV method to read in a CSV file, determine whether it is an Item database or Positional Database,
+        and read in the information as appropriate. See more in the TODO
+    Interface Classes (Main, Restocker, Management, Customer)
+        -Created loop method to read in user input and make determinations based on the input
+    Customer Class
+        -Created a beginTransaction method to read in customer item selection and calculate price/determine if payment
+        is satisfied. Possibility of breaking this up into two methods to decouple them, but for now thats a low priority
+
+    --------------------------------------------------------------------------------------------------------------------
+
+    UPDATE 12/1/2022
+    CHANGES
+    --------------------------------------------------------------------------------------------------------------------
+    -Import CSV and Export CSV work
+    -Most of customer complete
+    -Issue with customer class in item selection
+        -Items are being removed when they shouldn't be
+        -Debug code there
+    
+    --------------------------------------------------------------------------------------------------------------------
+    UPDATE 12/3/2022
+    --------------------------------------------------------------------------------------------------------------------
+    -Restocker Class mostly complete
+    -Re-formatted customer class
+    -Customer class complete
+    -Customer Class Issues no longer impacting program
+    --------------------------------------------------------------------------------------------------------------------
+    UPDATE 12/4/2022
+        ----------------------------------------------------------------------------------------------------------------
+        -Management Class Complete
+        -Testing ongoing
+        -Finished User Verification Class
+        -Logging known issues
+        -Bug testing
+        ----------------------------------------------------------------------------------------------------------------
+
+
+    TODO [UPDATE AS NEEDED]
+    --------------------------------------------------------------------------------------------------------------------
+     -Compile a list of known issues
+     -Get relevant documents
+     -Go over what we will be presenting
+     -Testing for bugs. If any are found, add them to the known issues
+    --------------------------------------------------------------------------------------------------------------------
+
+
+    KNOWN ISSUES:
+    --------------------------------------------------------------------------------------------------------------------
+    Restocker Issues:
+    	Remove List:
+    	- Shows all items that are expired in item list, not just items in inventory. (Not priority right now)
+
+    Vending Machine Issues:
+    	- populate remove list is not initialized until manually run. This could be fixed by running this on a timer (every 12 hours?)
+    	- Items that have a current count of 0 appear in the positions. This is correct based on the import of the DataBase info, but would need to be cleaned up in the future.
+
+    Customer Issues:
+        - When customer enters more than the total amount, the change deposited is in double form, but has too many decimal places. Need to round to two decimals
+
+    Management Issues:
+        - Anything that takes input will crash if no input is entered
+        - removeItemFromDB does not seem to be working, needs some investigation in the FAR FUTURE
+
+    --------------------------------------------------------------------------------------------------------------------
+
+    PRESENTATION SCRIPT:
+    --------------------------------------------------------------------------------------------------------------------
+    -Start with customer?
+        -Show off purchasing items
+    -Then to management
+        -View inventory
+        -View Item Database
+        -Add Item to Item Database
+        -Put that item to add item list
+    -End with Restock
+        -Restocker remove items
+        -Restocker adds items
+    -Customer again to purchase new item
+    --------------------------------------------------------------------------------------------------------------------
+
